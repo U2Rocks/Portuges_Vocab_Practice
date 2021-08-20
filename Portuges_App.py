@@ -1,8 +1,9 @@
 import tkinter as tk
 import random
 import time
+from Language_Lists import verb_list
 
-# text for buttons will be chosen from a list of words that is coded into the app 
+# text for buttons will be chosen from a list of words that is coded into the app
 
 question_dict = {
     'adeus': 'goodbye',
@@ -99,6 +100,8 @@ question_dict = {
 }
 
 # this function runs when you press the start game button and initiates all other functions
+
+
 def start_game():
     # get length of game for user or use default game length
     g_length = game_length.get()
@@ -111,12 +114,14 @@ def start_game():
     start_button.forget()
     game_length.forget()
     # this function will check our grabbed item list for any duplicates and continue the while loop if necessary
+
     def checkforduplicates(inputList):
         if len(inputList) == len(set(inputList)):
             return False
         else:
             return True
     # this function gets the text to be used for future functions
+
     def grab_items():
         global question_text_1
         global question_text_2
@@ -144,6 +149,7 @@ def start_game():
         question_text_3 = answer_list[2]
         question_text_4 = answer_list[3]
     # load text into buttons and create key interface items
+
     def load_items():
         reset_canvas_color()
         global ans_button_1
@@ -153,13 +159,18 @@ def start_game():
         global question_display_text
         # load buttons for the four possible anwsers
         if canvas.find_all() == ():
-            question_display_text = canvas.create_text(200,100, fill="black", font="Helvetica 20 bold", text=display_text)
+            question_display_text = canvas.create_text(
+                200, 100, fill="black", font="Helvetica 20 bold", text=display_text)
         else:
             canvas.itemconfigure(1, text=display_text)
-        ans_button_1 = tk.Button(root, text=question_text_1, padx=100, pady=20, command= lambda: check_anwser(str(question_text_1)), font='Helvetica 12 bold')
-        ans_button_2 = tk.Button(root, text=question_text_2, padx=100, pady=20, command= lambda: check_anwser(str(question_text_2)), font='Helvetica 12 bold')
-        ans_button_3 = tk.Button(root, text=question_text_3, padx=100, pady=20, command= lambda: check_anwser(str(question_text_3)), font='Helvetica 12 bold')
-        ans_button_4 = tk.Button(root, text=question_text_4, padx=100, pady=20, command= lambda: check_anwser(str(question_text_4)), font='Helvetica 12 bold')
+        ans_button_1 = tk.Button(root, text=question_text_1, padx=100, pady=20, command=lambda: check_anwser(
+            str(question_text_1)), font='Helvetica 12 bold')
+        ans_button_2 = tk.Button(root, text=question_text_2, padx=100, pady=20, command=lambda: check_anwser(
+            str(question_text_2)), font='Helvetica 12 bold')
+        ans_button_3 = tk.Button(root, text=question_text_3, padx=100, pady=20, command=lambda: check_anwser(
+            str(question_text_3)), font='Helvetica 12 bold')
+        ans_button_4 = tk.Button(root, text=question_text_4, padx=100, pady=20, command=lambda: check_anwser(
+            str(question_text_4)), font='Helvetica 12 bold')
         # pack buttons for answer
         ans_button_1.pack()
         ans_button_2.pack()
@@ -167,12 +178,14 @@ def start_game():
         ans_button_4.pack()
         # selecting our random anwsers
     # remove buttons and clear display text for next question
+
     def clear_board():
         ans_button_1.destroy()
         ans_button_2.destroy()
         ans_button_3.destroy()
         ans_button_4.destroy()
-    # check if anwser is correct and initiate the clearing of the board 
+    # check if anwser is correct and initiate the clearing of the board
+
     def check_anwser(text_input):
         canvas_text = canvas.itemcget(1, 'text')
         print("Canvas Text: " + canvas_text)
@@ -204,6 +217,7 @@ def start_game():
         if code == 1:
             score = score + 1
     # iterate turn for record keeping or reset turn with 0
+
     def iterate_turn(code):
         global turn
         if code == 0:
@@ -211,16 +225,20 @@ def start_game():
         if code == 1:
             turn = turn + 1
     # notifies user if person is wrong
+
     def wrong():
         canvas.configure(bg='red')
         canvas.update_idletasks()
     # notifies user if person is right
+
     def right():
         canvas.configure(bg='green')
         canvas.update_idletasks()
+
     def reset_canvas_color():
         canvas.configure(bg='#adc4c9')
     # add to score based on whether anwser is true or false
+
     def add_score(bool):
         global turn
         first_turn = "score" in globals()
@@ -240,13 +258,16 @@ def start_game():
             iterate_turn(1)
             print("turn number: " + str(turn) + " and score is: " + str(score))
     # loads score screen and prompts user to exit or try again
+
     def load_score_screen():
         global play_again_button
         # max_score variable is used for score screen purposes only
         max_score = g_length
-        final_message = "you scored " + str(score) + " points out of " + str(max_score) + "!"
+        final_message = "you scored " + \
+            str(score) + " points out of " + str(max_score) + "!"
         canvas.itemconfigure(1, text=final_message)
-        play_again_button = tk.Button(root, text="Click Here to Play Another Round!", padx=10, pady=10, command=reset_board, font='Helvetica 15 bold')
+        play_again_button = tk.Button(root, text="Click Here to Play Another Round!",
+                                      padx=10, pady=10, command=reset_board, font='Helvetica 15 bold')
         play_again_button.pack()
         print("----------------------")
         print("End of Game Board Clear!")
@@ -259,16 +280,15 @@ def start_game():
         load_board()
         pass
     # get items and load the board
+
     def load_board():
         grab_items()
         load_items()
-    
+
     # call functions for initial load
     load_board()
-    # functions should be loaded 20 times in a row and then score is displayed 
+    # functions should be loaded 20 times in a row and then score is displayed
     # after score is displayed provide an option to go another round
-
-
 
 
 # config root
@@ -281,7 +301,8 @@ root.config(bg="blue")
 
 # display start button and get game legnth
 canvas = tk.Canvas(root, height=200, width=400, bg="#adc4c9")
-start_button = tk.Button(root, text='Click here to start game', command=start_game, font='Helvetica 12 bold')
+start_button = tk.Button(root, text='Click here to start game',
+                         command=start_game, font='Helvetica 12 bold')
 game_length = tk.Entry(root, font='Helvetica 15 bold', justify='center')
 game_length.insert(0, 'Enter a Number between 1-20')
 # pack items onto starting screen
