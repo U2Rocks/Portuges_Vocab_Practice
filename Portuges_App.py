@@ -235,7 +235,7 @@ game_length.insert(0, 'Enter a Number between 1-30')
 selected = tk.IntVar()
 radiobutton_title = tk.Label(
     root, text="Please Choose Which List To Study", font="Helvetica 14 bold", bg="#E49273")
-radio_general = tk.Radiobutton(root, text="Top 100 Common Words(Default)",
+radio_general = tk.Radiobutton(root, text="Top 100 Common Words",
                                value=1, variable=selected, font="Helvetica 14 bold", command=store_list_value)
 radio_general.deselect()
 radio_verbs = tk.Radiobutton(root, text="Most Common Verbs",
