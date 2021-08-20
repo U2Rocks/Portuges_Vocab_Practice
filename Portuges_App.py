@@ -1,118 +1,30 @@
 import tkinter as tk
 import random
 import time
-from Language_Lists import verb_list
+from Language_Lists import verb_list, question_dict
 
 # text for buttons will be chosen from a list of words that is coded into the app
 
-question_dict = {
-    'adeus': 'goodbye',
-    'hoje': 'today',
-    'hora': 'hour',
-    'longe': 'far',
-    'mau': 'bad',
-    'perto': 'near',
-    'segundo': 'second',
-    'talvez': 'maybe',
-    'ontem': 'yesterday',
-    'bom': 'good',
-    'gato': 'cat',
-    'semana': 'week',
-    'amanhã': 'tomorrow',
-    'fazer': 'make',
-    'loga': 'shop',
-    'sorrir': 'smile',
-    'poder': 'can',
-    'usar': 'use',
-    'ir': 'go',
-    'vir': 'come',
-    'rir': 'laugh',
-    'ver': 'see',
-    'café': 'coffee',
-    'cerveja': 'beer',
-    'chá': 'tea',
-    'vinho': 'wine',
-    'não': 'no',
-    'delicioso': 'delicious',
-    'segunda-feira': 'monday',
-    'terça-feira': 'tuesday',
-    'quarta-feira': 'wednesday',
-    'quinta-feira': 'thursday',
-    'sexta-feira': 'friday',
-    'sábado': 'saturday',
-    'domingo': 'sunday',
-    'maio': 'may',
-    'janeiro': 'january',
-    'fevereiro': 'feburary',
-    'março': 'march',
-    'abril': 'april',
-    'junho': 'june',
-    'julho': 'july',
-    'agosto': 'august',
-    'setembro': 'september',
-    'outubro': 'october',
-    'novembro': 'november',
-    'dezembro': 'december',
-    'água': 'water',
-    'frango': 'chicken',
-    'carneiro': 'lamb',
-    'peixe': 'fish',
-    'pé': 'foot',
-    'perna': 'leg',
-    'cabeça': 'head',
-    'braço': 'arm',
-    'mão': 'hand',
-    'dedo': 'finger',
-    'corpo': 'body',
-    'estômago': 'stomach',
-    'costas': 'back',
-    'peito': 'chest',
-    'enfermeira': 'nurse',
-    'funcionário': 'employee',
-    'policial': 'police officer',
-    'cozinheiro': 'cook',
-    'engenheiro': 'engineer',
-    'médico': 'doctor',
-    'gerente': 'manager',
-    'professora': 'teacher',
-    'programador': 'programmer',
-    'vendedor': 'salesman',
-    'ano': 'year',
-    'bonito': 'beautiful',
-    'feio': 'ugly',
-    'difícil': 'dificult',
-    'minuto': 'minute',
-    'calendário': 'calendar',
-    'sim': 'yes',
-    'zunido': 'buzz',
-    'felicidade': 'happiness',
-    'paixão': 'passion',
-    'mãe': 'mother',
-    'alguém': 'someone',
-    'verdade': 'truth',
-    'ninguém': 'no one',
-    'dinheiro': 'money',
-    'outro': 'other',
-    'apenas': 'only',
-    'antes': 'before',
-    'sempre': 'always',
-    'também': 'also/too',
-}
 
 # this function runs when you press the start game button and initiates all other functions
 
 
 def start_game():
+    # prevents app from crashing when no list is selected
+    selected_list_str = str(selected_list)
     # get length of game for user or use default game length
     g_length = game_length.get()
-    if g_length == 'Enter a Number between 1-20':
-        g_length = 3
+    if g_length == 'Enter a Number between 1-30':
+        g_length = 5
     else:
         g_length == int(g_length)
-    print(g_length)
+    # print(g_length)
     # remove start button and game length entry box from window
     start_button.forget()
     game_length.forget()
+    radiobutton_title.forget()
+    radio_general.forget()
+    radio_verbs.forget()
     # this function will check our grabbed item list for any duplicates and continue the while loop if necessary
 
     def checkforduplicates(inputList):
@@ -134,14 +46,14 @@ def start_game():
         while Notchecked:
             answer_list = []
             for i in range(4):
-                i = random.choice(list(question_dict.keys()))
+                i = random.choice(list(selected_list.keys()))
                 answer_list.append(i)
             # print(answer_list)
             Notchecked = checkforduplicates(answer_list)
             # print(Notchecked)
         random.shuffle(answer_list)
         # print(answer_list)
-        display_text = question_dict[answer_list[0]]
+        display_text = selected_list[answer_list[0]]
         print("diplay text for comparison: " + display_text)
         random.shuffle(answer_list)
         question_text_1 = answer_list[0]
@@ -189,7 +101,7 @@ def start_game():
     def check_anwser(text_input):
         canvas_text = canvas.itemcget(1, 'text')
         print("Canvas Text: " + canvas_text)
-        ans_check = str(question_dict[text_input])
+        ans_check = str(selected_list[text_input])
         print("input anwser raw: " + text_input)
         print("input anwser value: " + ans_check)
         if ans_check == canvas_text:
@@ -290,6 +202,19 @@ def start_game():
     # functions should be loaded 20 times in a row and then score is displayed
     # after score is displayed provide an option to go another round
 
+# function to store value of radiobuttons
+
+
+def store_list_value():
+    global selected_list
+    list_choice = selected.get()
+    if list_choice == 1:
+        selected_list = question_dict
+    elif list_choice == 2:
+        selected_list = verb_list
+    else:
+        selected_list = question_dict
+
 
 # config root
 root = tk.Tk()
@@ -297,18 +222,32 @@ root.title('Common Portuges Words Practice')
 root.geometry('500x500')
 root.minsize(400, 500)
 root.maxsize(400, 500)
-root.config(bg="blue")
+root.config(bg="#2B4570")
 
 # display start button and get game legnth
 canvas = tk.Canvas(root, height=200, width=400, bg="#adc4c9")
 start_button = tk.Button(root, text='Click here to start game',
                          command=start_game, font='Helvetica 12 bold')
 game_length = tk.Entry(root, font='Helvetica 15 bold', justify='center')
-game_length.insert(0, 'Enter a Number between 1-20')
+game_length.insert(0, 'Enter a Number between 1-30')
+
+# create checkboxes to choose list
+selected = tk.IntVar()
+radiobutton_title = tk.Label(
+    root, text="Please Choose Which List To Study", font="Helvetica 14 bold", bg="#E49273")
+radio_general = tk.Radiobutton(root, text="Top 100 Common Words(Default)",
+                               value=1, variable=selected, font="Helvetica 14 bold", command=store_list_value)
+radio_general.deselect()
+radio_verbs = tk.Radiobutton(root, text="Most Common Verbs",
+                             value=2, variable=selected, font="Helvetica 14 bold", command=store_list_value)
+
 # pack items onto starting screen
 canvas.pack(side='top')
 start_button.pack(side='top', pady=5)
 game_length.pack(ipady=20, ipadx=60)
+radiobutton_title.pack(ipady=20, ipadx=39)
+radio_general.pack()
+radio_verbs.pack()
 
 # call root loop to start application
 root.mainloop()
