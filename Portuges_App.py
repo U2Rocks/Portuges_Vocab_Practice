@@ -11,7 +11,10 @@ from Language_Lists import verb_list, question_dict
 
 def start_game():
     # prevents app from crashing when no list is selected
-    selected_list_str = str(selected_list)
+    try:
+        selected_list_str = str(selected_list)
+    except NameError:
+        return
     # get length of game for user or use default game length
     g_length = game_length.get()
     if g_length == 'Enter a Number between 1-30':
